@@ -1,0 +1,56 @@
+/* style3.css - For the Completed Tasks List */
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+:root {
+    --gold-text: #fde047; /* A bright, celebratory gold */
+    --gold-glow: rgba(251, 191, 36, 0.7);
+    --dark-bg: rgba(25, 25, 35, 0.85); /* A dark, sophisticated slate background */
+    --white-accent: #ffffff;
+}
+
+body {
+    font-family: 'VT323', monospace;
+    background-color: transparent;
+    color: var(--gold-text);
+    padding: 10px;
+}
+
+#container {
+    background-color: var(--dark-bg);
+    border-radius: 15px;
+    padding: 20px;
+    border: 2px solid var(--gold-text);
+    box-shadow: 0 0 15px var(--gold-glow);
+}
+
+h1 {
+    font-size: 32px;
+    color: var(--gold-text);
+    margin: 0 0 10px 0;
+    text-align: center;
+    text-shadow: 0 0 8px var(--gold-glow);
+}
+
+.item {
+    font-size: 26px;
+    padding: 10px;
+    text-align: left;
+    border-top: 1px solid rgba(253, 224, 71, 0.2);
+}
+
+/* For completed items, they're all done here, so this is the default styling */
+.username {
+    font-weight: bold;
+    color: var(--white-accent); /* White username for contrast */
+    margin-right: 10px;
+}
+.work-text {
+    color: var(--gold-text);
+}
+
+.empty-list {
+    font-size: 24px;
+    color: #9ca3af; /* Muted grey */
+    text-align: center;
+    padding: 20px;
+}

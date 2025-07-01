@@ -1,0 +1,377 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Co-Working Dashboard</title>
+    <!-- Load required retro fonts from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Handjet:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chokokutai&family=Tiny5&display=swap" rel="stylesheet">
+
+    <style>
+        /* Define our FLIPPED color palette */
+        :root {
+            --pastel-pink-bg: rgba(253, 221, 230, 0.85); /* New BG: Semi-transparent pastel pink */
+            --pastel-pink-text: #ffdde9;
+            --pastel-pink-text-light: #ffe5ee;
+            --hot-pink-glow: #ff1493;           /* New Accent/Glow: Bright Hot Pink */
+            --hot-pink-text: #be185d;            /* New Text: A deeper, more readable hot pink */
+            --white-accent: #ffffff;             /* Keeping white for some sparkle highlights */
+
+            /* Specific colors from style2.css for Pomo panel */
+            --pomo-hot-pink-bg: rgba(255, 20, 147, 0.85);
+            --pomo-pastel-pink-glow: #fddde6;
+            --pomo-white-text: #fecbd4;
+            --pomo-pastel-pink-text-light: #ffe5ee;
+        }
+
+        /* Define the keyframe animations with the new colors */
+        @keyframes sparkle {
+            0%, 100% {
+                text-shadow: 0 0 4px var(--hot-pink-text), 0 0 8px var(--hot-pink-glow), 0 0 12px var(--white-accent);
+            }
+            50% {
+                text-shadow: 0 0 8px var(--hot-pink-text), 0 0 12px var(--hot-pink-glow), 0 0 18px var(--hot-pink-glow);
+            }
+        }
+
+        /* NEW: A more subtle sparkle animation just for the item text */
+        @keyframes subtle-sparkle {
+            0%, 100% {
+                text-shadow: 0 0 2px var(--hot-pink-glow);
+            }
+            50% {
+                text-shadow: 0 0 6px var(--hot-pink-glow);
+            }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 15px 2px var(--hot-pink-glow),
+                            0 0 25px 5px var(--hot-pink-glow),
+                            0 0 40px 8px var(--hot-pink-glow);
+            }
+            50% {
+                box-shadow: 0 0 20px 3px var(--hot-pink-glow),
+                            0 0 30px 6px var(--hot-pink-glow),
+                            0 0 50px 10px var(--hot-pink-glow);
+            }
+        }
+
+        /* --- Master Dashboard Layout --- */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: transparent; /* Essential for OBS transparency */
+            overflow: hidden; /* Prevent scrollbars */
+            width: 1920px; /* Fixed width as requested */
+            height: 1080px; /* Fixed height as requested */
+            display: flex; /* Use flexbox to center content if needed, or grid for precise layout */
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        #dashboard-container {
+            display: grid;
+            grid-template-columns: 470px 700px 490px;
+            grid-template-rows: auto;
+            gap: 50px; /* Space between columns */
+            width: 1920px;
+            height: 1080px;
+            padding: 20px; /* Padding for the overall dashboard to allow glow space */
+            box-sizing: border-box;
+            align-items: start; /* Align content to the top of each grid cell */
+            justify-content: center; /* Center the grid horizontally */
+        }
+
+        .panel {
+            background-color: var(--pastel-pink-bg); /* Default background */
+            border-radius: 15px;
+            border: 2px solid var(--hot-pink-glow); /* Default border */
+            animation: pulse-glow 4s infinite ease-in-out;
+            padding: 10px; /* Internal padding for each panel */
+            box-sizing: border-box;
+            overflow-y: auto; /* Enable scrolling for content that exceeds height */
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center content horizontally within panel */
+            text-align: center;
+        }
+
+        /* Specific panel dimensions */
+        #tasks-panel {
+            width: 470px;
+            height: 750px;
+            grid-column: 1;
+            /* Tasks panel specific background and border */
+            background-color: var(--pastel-pink-bg);
+            border: 2px solid var(--hot-pink-glow);
+        }
+
+        #pomo-panel {
+            width: 700px;
+            height: 675px;
+            grid-column: 2;
+            align-self: end;
+            transform: translateY(-50px);
+            /* Pomo panel specific background and border from style2.css */
+            background-color: var(--pomo-hot-pink-bg);
+            border: 2px solid var(--pomo-pastel-pink-glow);
+        }
+
+        #commands-panel {
+            width: 490px;
+            height: 900px;
+            grid-column: 3;
+            align-self: end;
+            transform: translateY(-100px);
+            /* Commands panel uses default panel styles for background/border */
+        }
+
+        /* --- Common Styles for Panel Titles (h1) --- */
+        .panel h1 {
+            font-family: 'VT323', monospace;
+            font-weight: bold;
+            letter-spacing: 1.75px;
+            text-transform: uppercase;
+            margin-top: 0;
+            margin-bottom: 2px;
+            text-align: center;
+            padding-bottom: 0px;
+        }
+
+        /* --- Specific Styles for Tasks Panel Content (from style.css) --- */
+        #tasks-panel h1 {
+            font-size: 35px; /* From style.css h1 */
+            color: var(--hot-pink-text); /* From style.css h1 */
+            text-shadow: 0 0 8px var(--hot-pink-glow); /* From style.css h1 */
+        }
+        #tasks-panel .item {
+            font-family: 'Handjet', sans-serif;
+            font-weight: 500; /* From style.css body */
+            letter-spacing: 1.1px; /* From style.css .item */
+            font-size: 30px; /* From style.css .item */
+            padding: -5px 2px 2px 2px; /* From style.css .item */
+            color: var(--hot-pink-text); /* From style.css .item */
+            text-align: center;
+            animation: subtle-sparkle 3s infinite ease-in-out; /* From style.css .item */
+            margin-bottom: 8px; /* Adjusted for dashboard layout */
+        }
+        #tasks-panel .item:last-of-type {
+            margin-bottom: 0;
+        }
+        #tasks-panel .item .username {
+            font-weight: bold; /* From style.css .username */
+            color: var(--pastel-pink-text-light); /* From style.css .username */
+        }
+        #tasks-panel .item .work-text {
+            font-style: italic; /* From style.css .work-text */
+            margin-left: -1px; /* From style.css .work-text */
+        }
+        #tasks-panel .empty-list {
+            font-family: 'VT323', monospace; /* From style.css .empty-list */
+            letter-spacing: 1.75px; /* From style.css .empty-list */
+            font-size: 39px; /* From style.css .empty-list */
+            color: var(--hot-pink-text); /* From style.css .empty-list */
+            text-align: center;
+            padding: 2px; /* From style.css .empty-list */
+            opacity: 0.8; /* From style.css .empty-list */
+            animation: sparkle 3s infinite ease-in-out; /* From style.css .empty-list */
+            margin-top: 50px;
+        }
+
+
+        /* --- Specific Styles for Pomodoro Panel Content (from style2.css) --- */
+        #pomo-panel h1 {
+            font-size: 35px; /* From style2.css h1 */
+            color: var(--pomo-white-text); /* From style2.css h1 */
+            text-shadow: 0 0 8px var(--pomo-pastel-pink-glow); /* From style2.css h1 */
+            margin-bottom: 0; /* From style2.css h1 */
+            padding-bottom: 3px; /* From style2.css h1 */
+        }
+        #pomo-panel .item {
+            font-family: 'Handjet', sans-serif; /* From style2.css body */
+            font-weight: 500; /* From style2.css body */
+            letter-spacing: 1.1px; /* From style2.css .item */
+            font-size: 30px; /* From style2.css .item */
+            padding: 0px; /* From style2.css .item */
+            margin: 0px 1.5px 0px 1.5px; /* From style2.css .item */
+            color: var(--pomo-white-text); /* From style2.css .item */
+            text-align: center;
+            animation: subtle-sparkle 3s infinite ease-in-out; /* From style2.css .item */
+            margin-bottom: 12px; /* Adjusted for dashboard layout */
+        }
+        #pomo-panel .item:last-of-type {
+            margin-bottom: 0;
+        }
+        #pomo-panel .item .username {
+            font-weight: 800; /* From style2.css .username */
+            color: var(--pomo-pastel-pink-text-light); /* From style2.css .username */
+            letter-spacing:1.1px; /* From style2.css .username */
+        }
+        #pomo-panel .item .work-text {
+            font-style: italic; /* From style2.css .work-text */
+            margin-left: -2px; /* From style2.css .work-text */
+        }
+        #pomo-panel .item .timer-time {
+            font-family: 'VT323', monospace;
+            color: var(--pomo-white-text); /* Using pomo-white-text for consistency */
+            font-size: 0.9em; /* Retained from previous dashboard version for visual balance */
+        }
+        #pomo-panel .empty-list {
+            font-family: 'VT323', monospace; /* From style2.css .empty-list */
+            letter-spacing: 1.75px; /* From style2.css .empty-list */
+            font-size: 39px; /* From style2.css .empty-list */
+            color: #FFFFFF; /* From style2.css .empty-list */
+            text-align: center;
+            padding: 3px; /* From style2.css .empty-list */
+            opacity: 0.8; /* From style2.css .empty-list */
+            animation: sparkle 3s infinite ease-in-out; /* From style2.css .empty-list */
+            margin-top: 50px;
+        }
+
+
+        /* --- Specific Styles for Commands Panel Content (from commands.html inline style) --- */
+        #commands-panel h1 {
+            font-size: 35px; /* From commands.html h1 */
+            color: var(--hot-pink-glow); /* From commands.html h1 */
+            text-shadow: 0 0 8px var(--hot-pink-glow); /* From commands.html h1 */
+        }
+        #commands-panel .command-item {
+            font-weight:500; /* From commands.html .command-item */
+            letter-spacing: 1.1px; /* From commands.html .command-item */
+            font-size: 28px; /* From commands.html .command-item */
+            padding: 0; /* From commands.html .command-item */
+            color: var(--hot-pink-text); /* From commands.html .command-item */
+            text-align: center;
+            animation: subtle-sparkle 3s infinite ease-in-out; /* From commands.html .command-item */
+            margin-bottom: 20px; /* From commands.html .command-item */
+        }
+        #commands-panel .command-item:last-of-type {
+            margin-bottom: 0;
+        }
+        #commands-panel .command-name {
+            font-family: 'Tiny5', sans-serif; /* From commands.html .command-name */
+            color: var(--hot-pink-text); /* From commands.html .command-name */
+            font-size:1.07em; /* Corrected from commands.html */
+        }
+        #commands-panel .command-desc {
+            margin-left: -1px; /* From commands.html .command-desc */
+            color: var(--hot-pink-text); /* From commands.html .command-desc */
+            line-height: 1; /* From commands.html .command-desc */
+            margin-top: -6px; /* From commands.html .command-desc */
+            margin-bottom: -6px; /* From commands.html .command-desc */
+            letter-spacing:1.5px; /* Corrected from commands.html */
+            font-size:1.05em; /* Corrected from commands.html */
+        }
+        #commands-panel .command-syntax {
+            font-family: 'VT323', monospace; /* From commands.html .command-syntax */
+            color: var(--hot-pink-glow); /* From commands.html .command-syntax */
+            font-size:1.1em; /* From commands.html .command-syntax */
+        }
+
+    </style>
+</head>
+<body>
+    <div id="dashboard-container">
+        <div id="tasks-panel" class="panel">
+            <!-- Content for tasks will be loaded here by JavaScript -->
+        </div>
+        <div id="pomo-panel" class="panel">
+            <!-- Content for pomodoro timers will be loaded here by JavaScript -->
+        </div>
+        <div id="commands-panel" class="panel">
+            <!-- Static content for commands will be embedded here -->
+            <h1>Bot Commands</h1>
+
+            <!-- Command: !task -->
+            <div class="command-item">
+                <span class="command-name">!task</span> <span class="command-syntax">[name]</span>
+                <p class="command-desc">Add a new task (without a timer).</p>
+            </div>
+
+            <!-- Command: !pomo -->
+            <div class="command-item">
+                <span class="command-name">!pomo</span> <span class="command-syntax">&lt;study&gt; [break] [s] [name]</span>
+                <p class="command-desc">Start a Pomodoro timer, e.g.: <br/><em>!pomo 25 5 4 NameOfTask</em></p>
+            </div>
+
+            <!-- Command Group: Done/Cancel/Pause/Resume -->
+            <div class="command-item">
+                <span class="command-name">!done</span> <span class="command-desc" style="font-style:normal;"> | </span>
+                <span class="command-name">!cancel</span> <span class="command-desc" style="font-style:normal;"> | </span>
+                <span class="command-name">!pause</span> <span class="command-desc" style="font-style:normal;"> | </span>
+                <span class="command-name">!resume</span>
+                <p class="command-desc">Complete or cancel tasks/pomo, pause/resume timers.</p>
+            </div>
+
+            <!-- Combined Commands: !me | !alltasks | !leaderboard -->
+            <div class="command-item">
+                <span class="command-name">!me</span> <span class="command-desc" style="font-style:normal;"> | </span>
+                <span class="command-name">!alltasks</span> <span class="command-desc" style="font-style:normal;"> | </span>
+                <span class="command-name">!leaderboard</span>
+                <!-- No description for this line, as requested -->
+            </div>
+
+            <!-- Command: !challenge -->
+            <div class="command-item">
+                <span class="command-name">!challenge</span>
+                <p class="command-desc">Get a random work challenge.</p>
+            </div>
+
+            <!-- Command: !challengedone -->
+            <div class="command-item">
+                <span class="command-name">!challengedone</span>
+                <!-- No description for this line, as requested -->
+            </div>
+
+            <!-- Command: !remindme -->
+            <div class="command-item">
+                <span class="command-name">!remindme</span> <span class="command-syntax">&lt;minutes&gt; &lt;message&gt;</span>
+                <p class="command-desc">Set a private reminder (e.g., !remindme 30 drink water).</p>
+            </div>
+            
+            <!-- Command: !help -->
+            <div class="command-item">
+                <span class="command-name">!help</span>
+                <p class="command-desc">Display this list of commands.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get the channel name from a query parameter or default
+        const urlParams = new URLSearchParams(window.location.search);
+        const channelName = urlParams.get('channel') || 'default_channel';
+
+        async function updatePanelContent(panelId, contentFileName) {
+            try {
+                const response = await fetch(`${channelName.toLowerCase()}_${contentFileName}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const content = await response.text();
+                document.getElementById(panelId).innerHTML = content;
+            } catch (error) {
+                console.error(`Could not load content for ${panelId} from ${contentFileName}:`, error);
+                document.getElementById(panelId).innerHTML = `<div class="empty-list">Error loading ${panelId}</div>`;
+            }
+        }
+
+        // Initial load of dynamic content
+        document.addEventListener('DOMContentLoaded', () => {
+            updatePanelContent('tasks-panel', 'tasks_content.html');
+            updatePanelContent('pomo-panel', 'timers_content.html');
+        });
+
+        // Periodically refresh dynamic content (every 5 seconds, matching bot's file_writer_routine)
+        setInterval(() => {
+            updatePanelContent('tasks-panel', 'tasks_content.html');
+            updatePanelContent('pomo-panel', 'timers_content.html');
+        }, 5000);
+    </script>
+</body>
+</html>

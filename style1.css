@@ -1,0 +1,79 @@
+/* Import the requested retro font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+/* Define our color palette using CSS variables for easy editing */
+:root {
+    --neon-pink: #ff00ff;
+    --hot-red: #ff1b1b;
+    --baby-pink: #f9a8d4;
+    --white: #ffffff;
+    --dark-bg: rgba(20, 0, 20, 0.85); /* A very dark purple, almost black */
+    --border-glow: rgba(255, 0, 255, 0.7);
+}
+
+/* Define the keyframe animations */
+@keyframes sparkle {
+    0%, 100% {
+        text-shadow: 0 0 5px var(--white), 0 0 10px var(--white), 0 0 15px var(--baby-pink);
+    }
+    50% {
+        text-shadow: 0 0 10px var(--white), 0 0 15px var(--baby-pink), 0 0 25px var(--neon-pink);
+    }
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 0 0 15px var(--neon-pink), 0 0 25px var(--neon-pink);
+    }
+    50% {
+        box-shadow: 0 0 20px var(--border-glow), 0 0 35px var(--border-glow);
+    }
+}
+
+/* Basic setup for the whole page */
+body {
+    font-family: 'VT323', monospace; /* Use our imported font */
+    background-color: transparent;
+    color: var(--white);
+    padding: 10px;
+}
+
+/* The main container for our list */
+#container {
+    background-color: var(--dark-bg);
+    border-radius: 15px;
+    padding: 20px;
+    border: 2px solid var(--neon-pink);
+    /* Apply the pulsing glow animation */
+    animation: pulse-glow 3s infinite ease-in-out;
+}
+
+/* The title, e.g., "Active Pomodoros" */
+h1 {
+    font-size: 32px; /* Increased size for pixel font readability */
+    color: var(--neon-pink);
+    margin-top: 0;
+    text-align: center;
+    padding-bottom: 10px;
+    /* Apply a neon text-shadow effect */
+    text-shadow: 0 0 5px var(--neon-pink), 0 0 10px var(--neon-pink);
+}
+
+/* Styling for each individual item in the list */
+.item {
+    font-size: 26px; /* Increased size for pixel font readability */
+    padding: 10px;
+    color: var(--baby-pink);
+    text-align: center;
+    /* Apply the sparkle animation to make the items shimmer */
+    animation: sparkle 2.5s infinite linear;
+}
+
+/* Styling for the message when a list is empty */
+.empty-list {
+    font-size: 24px; /* Increased size for pixel font readability */
+    color: var(--baby-pink);
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+}

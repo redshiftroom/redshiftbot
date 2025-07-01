@@ -1,0 +1,131 @@
+/* Import the requested retro font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Handjet:wght@100..900&display=swap');
+
+/* Define our new FLIPPED color palette */
+:root {
+    --pastel-pink-bg: rgba(253, 221, 230, 0.85); /* New BG: Semi-transparent pastel pink */
+	--pastel-pink-text: #ffdde9;
+	--pastel-pink-text-light: #ffe5ee;
+    --hot-pink-glow: #ff1493;                   /* New Accent/Glow: Bright Hot Pink */
+    --hot-pink-text: #be185d;                    /* New Text: A deeper, more readable hot pink */
+    --white-accent: #ffffff;                    /* Keeping white for some sparkle highlights */
+}
+
+/* Define the keyframe animations with the new colors */
+@keyframes sparkle {
+    0%, 100% {
+        text-shadow: 0 0 4px var(--hot-pink-text), 0 0 8px var(--hot-pink-glow), 0 0 12px var(--white-accent);
+    }
+    50% {
+        text-shadow: 0 0 8px var(--hot-pink-text), 0 0 12px var(--hot-pink-glow), 0 0 18px var(--hot-pink-glow);
+    }
+}
+
+/* NEW: A more subtle sparkle animation just for the item text */
+@keyframes subtle-sparkle {
+    0%, 100% {
+        text-shadow: 0 0 2px var(--hot-pink-glow);
+    }
+    50% {
+        text-shadow: 0 0 6px var(--hot-pink-glow);
+    }
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 0 0 15px var(--hot-pink-glow), 0 0 25px var(--hot-pink-glow);
+    }
+    50% {
+        box-shadow: 0 0 20px var(--hot-pink-glow), 0 0 30px var(--hot-pink-glow);
+    }
+}
+
+/* Basic setup for the whole page */
+body {
+	font-family: 'Handjet', sans-serif; 
+	font-weight:500;
+/*    font-family: 'VT323', monospace;*/ /* Use our retro font */
+    background-color: transparent;
+    color: var(--hot-pink-text); /* Set default text color */
+    padding: 1.5px 1.5px 1.5px 1.5px;
+}
+
+/* The main container for our list */
+#container {
+    background-color: var(--pastel-pink-bg); /* Use the new pastel pink background */
+    border-radius: 15px;
+    padding: 2px;
+    border: 2px solid var(--hot-pink-glow); /* Hot pink border */
+    /* Apply the pulsing glow animation */
+    animation: pulse-glow 4s infinite ease-in-out;
+}
+
+/* The title, e.g., "Active Pomodoros" */
+h1 {
+	font-family: 'VT323', monospace;
+	font-weight: bold;
+	letter-spacing: 1.75px;
+	text-transform:uppercase;
+    /*font-size: 26px;*/
+	font-size: 35px;
+	/*text-decoration:underline;*/
+/*	text-decoration: underline dotted;*/
+    color: var(--hot-pink-text); /* Hot pink title */
+    margin-top: 0;
+	margin-bottom: 2px;
+    text-align: center;
+    padding-bottom: 0px;
+    text-shadow: 0 0 8px var(--hot-pink-glow);
+}
+
+/* Styling for each individual item in the list */
+.item {
+/*	font-family: 'Handjet', sans-serif; 
+	font-weight:600;*/
+	letter-spacing:1.1px;
+    /*font-size: 22px;*/
+	font-size: 30px;
+    padding: -5px 2px 2px 2px;
+    color: var(--hot-pink-text); /* Hot pink text for items */
+    text-align: center;
+    /*animation: sparkle 3s infinite linear;*/
+	animation: subtle-sparkle 3s infinite ease-in-out;
+}
+
+/* Styling for the message when a list is empty - NOT italic */
+.empty-list {
+	font-family: 'VT323', monospace;
+	letter-spacing: 1.75px;
+    font-size: 39px;
+    color: var(--hot-pink-text);
+    text-align: center;
+    padding: 2px;
+    opacity: 0.8; /* Slightly faded when empty */
+	animation: sparkle 3s infinite ease-in-out;
+}
+
+.username {
+/*    font-weight: bold;*/
+	font-weight: bold;
+    /*color: var(--pastel-pink-bg); */
+	color: var(--pastel-pink-text-light);
+/*    margin-right: 10px; */
+}
+.work-text {
+    /*font-weight: normal;*/
+	font-style: italic;
+	margin-left: -1px;
+}
+
+/* The subtle glow is removed for completed tasks for clarity */
+.item.done {
+    color: #9ca3af;
+    text-decoration: line-through;
+    opacity: 0.7;
+    animation: none; /* Turn off animation for completed items */
+	font-style: italic;
+}
+.item.done .username { 
+     color: #9ca3af;
+}
